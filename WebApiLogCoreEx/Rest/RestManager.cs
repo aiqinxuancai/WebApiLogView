@@ -23,6 +23,8 @@ namespace WebApiLogCore.Services
 
         static MemoryMappedFile _memoryMappedPort = null;
 
+        static RestServer _httpServer = new RestServer(5);
+
         /// <summary>
         /// 返回端口号
         /// </summary>
@@ -32,7 +34,7 @@ namespace WebApiLogCore.Services
         {
             //端口自动
 
-            RestServer httpServer = new RestServer(5);
+            
 
             for (int i = START_PORT; i < START_PORT + 100; i++)
             {
@@ -41,7 +43,7 @@ namespace WebApiLogCore.Services
                     Console.WriteLine("使用端口{0}", i);
                     //NetFwAddApps("WebApiLogView", i);
                     //无占用 启动
-                    if (httpServer.Start(i, callback))
+                    if (_httpServer.Start(i, callback))
                     {
                         _servicePort = i;
                     }
@@ -50,6 +52,12 @@ namespace WebApiLogCore.Services
             }
             return _servicePort;
         }
+        public static void Stop()
+        {
+            _httpServer.Stop();
+        }
+
+        
 
         /// <summary>
         /// 检查本地某个TCP端口是否在使用中（监听中）

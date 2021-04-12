@@ -1,28 +1,90 @@
-﻿<Window x:Class="WebApiLogViewGUI.MainWindow"
+﻿<mah:MetroWindow x:Name="mainWindow" x:Class="WebApiLogViewGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebApiLogViewGUI"
-        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:system="clr-namespace:System;assembly=System.Runtime"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:system="clr-namespace:System;assembly=System.Runtime" xmlns:conver="clr-namespace:WebApiLogViewGUI.Converter"
+                 mc:Ignorable="d"
+        Title="WebApiLogView" Height="768" Width="1024" 
+                 Closing="mainWindow_Closing" 
+                 TitleCharacterCasing="Normal" 
+                 WindowStartupLocation="CenterScreen" 
+AllowsTransparency="True" Background="Transparent" BorderThickness="1">
+    <Window.Resources>
+        <conver:TimeConver x:Key="TimeConver"/>
+        <conver:BrushConver x:Key="BrushConver"/>
+    </Window.Resources>
     <Grid>
-        <avalonEdit:TextEditor
-            xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-            Name="TextEditor"
-            SyntaxHighlighting="C#"
-            FontFamily="Consolas"
-            FontSize="10pt" 
-            LineNumbersForeground="Black" 
-            ShowLineNumbers="True">
-            <avalonEdit:TextEditor.Options>
-                <avalonEdit:TextEditorOptions ShowSpaces="True" >
-                    <avalonEdit:TextEditorOptions.ColumnRulerPosition>
-                        <system:Int32>10</system:Int32>
-                    </avalonEdit:TextEditorOptions.ColumnRulerPosition>
-                </avalonEdit:TextEditorOptions>
-            </avalonEdit:TextEditor.Options>
-        </avalonEdit:TextEditor>
+        <DataGrid x:Name="_mainLogViewDataGrid" 
+                      ItemsSource="{Binding}" 
+                      Margin="0,0,0,0"  
+                      AutoGenerateColumns="False"
+                      Foreground="#C6000000" 
+                      MinRowHeight="22" 
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <DataGrid.Resources>
+                <!--<SolidColorBrush x:Key="MetroDataGrid.HighlightBrush" Color="#CC9DD3FA" />
+                <SolidColorBrush x:Key="MetroDataGrid.MouseOverHighlightBrush" Color="#CC9DD3FA" />
+                <SolidColorBrush x:Key="MahApps.Brushes.DataGrid.Selection.Background.MouseOver" Color="#CC9DD3FA" />-->
+
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5,0">
+                                <TextBlock  Text="{Binding Path=Time,Mode=OneWay}" Foreground="{Binding LogBrush}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5,0">
+                                <TextBlock Margin="5,0" Text="{Binding Path=LevelString, Mode=OneWay}" Foreground="{Binding LogBrush}"></TextBlock>
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5,0">
+                                <TextBlock Margin="5,0" Text="{Binding Path=Message, Mode=OneWay}" Foreground="{Binding LogBrush}"></TextBlock>
+                                <!--<RichTextBox Background="Transparent" BorderThickness="0" Foreground="{Binding LogBrush}" 
+                                                 local:HtmlRichTextBoxBehavior.Text="{Binding HtmlContent}"
+                                                 IsDocumentEnabled="True"
+                                                 IsReadOnly="True" Margin="0" 
+                                                 Visibility="{Binding Path=HtmlContent,Mode=OneWay,TargetNullValue=Hidden,
+                                        Converter={StaticResource VisibilityConver}}" MinWidth="600" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Padding="1,5,0,0" FontFamily="Microsoft YaHei UI"/>
+
+                                <TextBlock  Margin="7,0" Text="{Binding Path=LogContent,Mode=OneWay}" 
+                                               Foreground="{Binding LogBrush}"
+                                               Visibility="{Binding Path=HtmlContent,Mode=OneWay,TargetNullValue=Hidden,Converter={StaticResource VisibilityConverReverse}}">
+                                </TextBlock>
+
+                                <Image  Margin="7,0" Source="{Binding Path=LogImage,Mode=OneWay}" MaxHeight="110"></Image>-->
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock MouseDown="TextBlock_MouseDown" Foreground="#4CB4E7" Text="[打开链接]" 
+                                           Visibility="{Binding Path=HttpLink,Mode=OneWay,TargetNullValue=Hidden,Converter={StaticResource VisibilityConver}}" Margin="5,0" TextDecorations="Underline"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
-</Window>
+</mah:MetroWindow>
