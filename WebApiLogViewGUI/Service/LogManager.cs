@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 using WebApiLogCore.Base;
 using WebApiLogCore.Services;
 using WebApiLogViewGUI.Model;
@@ -34,6 +36,8 @@ namespace WebApiLogViewGUI.Service
         public string IP { get; }
         public int Port { get; set; }
 
+        public const string kNewLogModel = "kNewLogModel";
+
         LogManager()
         {
             Logs = new ObservableCollection<LogModel>();
@@ -56,20 +60,31 @@ namespace WebApiLogViewGUI.Service
 
         public void Test()
         {
-            Logs.Add(new LogModel(1, "test"));
-            Logs.Add(new LogModel(1, "test2"));
-            Logs.Add(new LogModel(1, "test3"));
-            Logs.Add(new LogModel(1, "test4"));
-            Logs.Add(new LogModel(1, "test5"));
+            for (int i = 0; i < 100; i++)
+            {
+                Logs.Add(new LogModel(1, $"test{i}"));
+            }
         }
 
         void LogCallback(LogModel model)
         {
-            int level = model.Level;
-            string message = model.Message;
 
-            Logs.Add(model);
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                Logs.Add(model);
+            });
 
+            //GlobalNotification.Default.Post(kNewLogModel, model);
+
+            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action<LogModel>((x) =>
+            //    {
+            //        Logs.Add(model);
+            //    }), model);
+
+            //    Dispatcher.CurrentDispatcher.Invoke(() =>
+            //    {
+            //        Logs.Add(model);
+            //    }, DispatcherPriority.Normal);
 
             //switch (level)
             //{

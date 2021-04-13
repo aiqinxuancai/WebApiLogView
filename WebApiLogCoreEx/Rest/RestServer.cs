@@ -30,6 +30,12 @@ namespace WebApiLogCore.Services.Rest
             this.JsonPost("SendLog", (root) => {
                 try
                 {
+                    int level = root["level"].ToObject<int>();
+                    string message = root["message"].ToObject<string>();
+
+                    LogModel logModel = new LogModel(level, message);
+                    Callback(logModel);
+
                     return GetRestResponseModel(REST_RESULT.SURCESS, ""); 
                 }
                 catch (System.Exception ex)

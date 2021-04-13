@@ -22,20 +22,63 @@ namespace WebApiLogViewGUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
 
-            this._mainLogViewDataGrid.DataContext = LogManager.GetInstance().Logs;
+            this.mainLogViewDataGrid.DataContext = LogManager.GetInstance().Logs;
 
             LogManager.GetInstance().Test();
 
             mainWindow.Title = $"WebApiLogView [{LogManager.GetInstance().GetAddress()}]";
+
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             LogManager.GetInstance().Stop();
+        }
+
+        private void buttonExportLog_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void switchAutoToBottom_Toggled(object sender, RoutedEventArgs e)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch != null)
+            {
+                if (toggleSwitch.IsOn == true)
+                {
+                    //_mainLogViewDataGrid.
+                }
+                else
+                {
+                }
+            }
+        }
+
+        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            //GlobalNotification.Default.Register(LogManager.kNewLogModel, this, (msg =>
+            //{
+            //    this.Dispatcher.Invoke(() =>
+            //    {
+            //        //mainLogViewDataGrid.ScrollIntoView(msg.Source);
+            //    });
+            //}));
+
+            //Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            //{
+
+
+            //});
+
         }
     }
 }

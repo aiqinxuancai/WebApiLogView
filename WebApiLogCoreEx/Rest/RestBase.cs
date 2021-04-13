@@ -51,6 +51,12 @@ namespace WebApiLogCore.Services.Rest
             _route = new List<JsonRoute>();
         }
 
+        public void Callback(LogModel model)
+        {
+            _callback?.Invoke(model);
+        }
+
+
         public bool Start(int port, Action<LogModel> callback)
 
         {

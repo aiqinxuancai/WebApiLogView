@@ -1,0 +1,161 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WebApiLogViewGUI">
+
+    <Color x:Key="TokenColorWhite">#EEFFFFFF</Color>
+    <Color x:Key="TokenColorTransparent">#00000000</Color>
+    <Color x:Key="TokenColorBase">#FF4B96CB</Color>
+    <SolidColorBrush x:Key="TokenForeground" Color="{StaticResource TokenColorWhite}"  />
+    <SolidColorBrush x:Key="TokenBorderBrushTransparent" Color="{StaticResource TokenColorTransparent}" />
+    <SolidColorBrush x:Key="TokenBrushBase" Color="{StaticResource TokenColorBase}" />
+
+
+    <Color x:Key="TokenColorBackgroundNormal">#FF4B96CB</Color>
+    <Color x:Key="TokenColorBackgroundPressed">#C84B96CB</Color>
+    <Color x:Key="TokenColorBackgroundMouseOver">#DC4B96CB</Color>
+    <Color x:Key="TokenColorBackgroundEnabled">#664B96CB</Color>
+
+    <SolidColorBrush x:Key="TokenBackgroundNormal" Color="{StaticResource TokenColorBackgroundNormal}"  />
+    <SolidColorBrush x:Key="TokenBackgroundPressed" Color="{StaticResource TokenColorBackgroundPressed}"  />
+    <SolidColorBrush x:Key="TokenBackgroundMouseOver" Color="{StaticResource TokenColorBackgroundMouseOver}"  />
+    <SolidColorBrush x:Key="TokenBackgroundEnabled" Color="{StaticResource TokenColorBackgroundEnabled}"  />
+    
+    <Style x:Key="TokenButtonBlue" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource TokenBackgroundNormal}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+        <Setter Property="Foreground" Value="{StaticResource TokenForeground}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="3">
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundMouseOver}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundPressed}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundEnabled}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Color x:Key="TokenColorBlack">#EE2D2D30</Color>
+    <SolidColorBrush x:Key="TokenForegroundBlack" Color="{StaticResource TokenColorBlack}"  />
+
+    <Color x:Key="TokenColorBackgroundHighlightBlueNormal">#FFE6E6E6</Color>
+    <Color x:Key="TokenColorBackgroundHighlightBluePressed">#C8E6E6E6</Color>
+    <Color x:Key="TokenColorBackgroundHighlightBlueMouseOver">#DCE6E6E6</Color>
+    <Color x:Key="TokenColorBackgroundHighlightBlueEnabled">#66E6E6E6</Color>
+
+    <SolidColorBrush x:Key="TokenBackgroundHighlightBlueNormal" Color="{StaticResource TokenColorBackgroundHighlightBlueNormal}"  />
+    <SolidColorBrush x:Key="TokenBackgroundHighlightBluePressed" Color="{StaticResource TokenColorBackgroundHighlightBluePressed}"  />
+    <SolidColorBrush x:Key="TokenBackgroundHighlightBlueMouseOver" Color="{StaticResource TokenColorBackgroundHighlightBlueMouseOver}"  />
+    <SolidColorBrush x:Key="TokenBackgroundHighlightBlueEnabled" Color="{StaticResource TokenColorBackgroundHighlightBlueEnabled}"  />
+
+    <Style x:Key="TokenButtonBlueHighlight" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource TokenBackgroundHighlightBlueNormal}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+        <Setter Property="Foreground" Value="{StaticResource TokenForegroundBlack}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="3">
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundHighlightBlueMouseOver}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundHighlightBluePressed}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundEnabled}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Color x:Key="TokenColorBackgroundRedNormal">#FFB6415B</Color>
+    <Color x:Key="TokenColorBackgroundRedPressed">#C8B6415B</Color>
+    <Color x:Key="TokenColorBackgroundRedMouseOver">#DCB6415B</Color>
+    <Color x:Key="TokenColorBackgroundRedEnabled">#66B6415B</Color>
+
+    <SolidColorBrush x:Key="TokenBackgroundRedNormal" Color="{StaticResource TokenColorBackgroundRedNormal}"  />
+    <SolidColorBrush x:Key="TokenBackgroundRedPressed" Color="{StaticResource TokenColorBackgroundRedPressed}"  />
+    <SolidColorBrush x:Key="TokenBackgroundRedMouseOver" Color="{StaticResource TokenColorBackgroundRedMouseOver}"  />
+    <SolidColorBrush x:Key="TokenBackgroundRedEnabled" Color="{StaticResource TokenColorBackgroundRedEnabled}"  />
+    
+    
+    <!--<SolidColorBrush x:Key="StandardSolidColorBrush" Color="Blue" />
+    <LinearGradientBrush x:Key="StandardLinearGradientBrush" StartPoint="0.0,0.0" EndPoint="1.0,1.0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Color="White" Offset="0" />
+            <GradientStop Color="Black" Offset="1" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>-->
+
+    <Style x:Key="TokenButtonRed" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource TokenBackgroundRedNormal}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+        <Setter Property="Foreground" Value="{StaticResource TokenForeground}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <!--<Border  Margin="10,0,10,10" CornerRadius="6"  BorderBrush="#FF737070" Background="#FFF1F3F4" >-->
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="3"
+                            >
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundRedMouseOver}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundRedPressed}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource TokenBorderBrushTransparent}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource TokenBackgroundEnabled}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>
