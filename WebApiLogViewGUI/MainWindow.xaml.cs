@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace WebApiLogViewGUI
     public partial class MainWindow : MetroWindow
     {
 
-
+        private bool _autoToBottom = true;
 
 
         public MainWindow()
@@ -32,7 +33,7 @@ namespace WebApiLogViewGUI
 
             this.mainLogViewDataGrid.DataContext = LogManager.GetInstance().Logs;
 
-            LogManager.GetInstance().Test();
+            
 
             mainWindow.Title = $"WebApiLogView [{LogManager.GetInstance().GetAddress()}]";
 
@@ -43,10 +44,7 @@ namespace WebApiLogViewGUI
             LogManager.GetInstance().Stop();
         }
 
-        private void buttonExportLog_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
 
         private void switchAutoToBottom_Toggled(object sender, RoutedEventArgs e)
         {
@@ -56,29 +54,45 @@ namespace WebApiLogViewGUI
                 if (toggleSwitch.IsOn == true)
                 {
                     //_mainLogViewDataGrid.
+                   
                 }
                 else
                 {
                 }
+
+                _autoToBottom = toggleSwitch.IsOn;
             }
         }
 
         private void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //GlobalNotification.Default.Register(LogManager.kNewLogModel, this, (msg =>
-            //{
-            //    this.Dispatcher.Invoke(() =>
-            //    {
-            //        //mainLogViewDataGrid.ScrollIntoView(msg.Source);
-            //    });
-            //}));
+            
 
-            //Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-            //{
+            GlobalNotification.Default.Register(LogManager.kNewLogModel, this, (msg =>
+            {
+                if (_autoToBottom)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        mainLogViewDataGrid.ScrollIntoView(msg.Source);
+                    });
+                }
+
+            }));
+
+            LogManager.GetInstance().Test();
+
+        }
+        private async void buttonExportLog_Click(object sender, RoutedEventArgs e)
+        {
+            var fileName = LogManager.GetInstance().Save();
+            MessageDialogResult messageResult = await this.ShowMessageAsync("导出成功！", $"文件保存为：{fileName}");
+        }
 
 
-            //});
-
+        private void buttonClearLog_Click(object sender, RoutedEventArgs e)
+        {
+            LogManager.GetInstance().ClearAll();
         }
     }
 }

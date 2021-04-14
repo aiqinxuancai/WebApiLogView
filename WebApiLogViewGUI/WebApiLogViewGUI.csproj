@@ -16,8 +16,4 @@
     <ProjectReference Include="..\WebApiLogCoreEx\WebApiLogCoreEx.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Converter\" />
-  </ItemGroup>
-
 </Project>

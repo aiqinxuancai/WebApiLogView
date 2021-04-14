@@ -10,6 +10,8 @@ using WebApiLogCore.Base;
 using WebApiLogCore.Services;
 using WebApiLogViewGUI.Model;
 
+using System.IO;
+
 namespace WebApiLogViewGUI.Service
 {
     class LogManager
@@ -60,10 +62,37 @@ namespace WebApiLogViewGUI.Service
 
         public void Test()
         {
+            Logs.Add(new LogModel(4, $"test{2222}"));
+            Logs.Add(new LogModel(5, $"test{1111}"));
             for (int i = 0; i < 100; i++)
             {
-                Logs.Add(new LogModel(1, $"test{i}"));
+                // Logs.Add();
+
+                LogCallback(new LogModel(1, $"test{i}"));
             }
+        }
+
+        public void ClearAll()
+        {
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                Logs.Clear();
+            });
+        }
+
+        public string Save()
+        {
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".log";
+            using (FileStream fsWrite = new FileStream(fileName, FileMode.Append))
+            {
+                foreach (var item in Logs)
+                {
+                    byte[] line = System.Text.Encoding.UTF8.GetBytes($"{item.Time} [{item.LevelString}] {item.Message} \r\n" );
+                    fsWrite.Write(line, 0, line.Length);
+                }
+
+            };
+            return fileName;
         }
 
         void LogCallback(LogModel model)
@@ -74,7 +103,7 @@ namespace WebApiLogViewGUI.Service
                 Logs.Add(model);
             });
 
-            //GlobalNotification.Default.Post(kNewLogModel, model);
+            GlobalNotification.Default.Post(kNewLogModel, model);
 
             //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action<LogModel>((x) =>
             //    {
