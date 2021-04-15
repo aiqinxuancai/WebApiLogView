@@ -2,6 +2,7 @@
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WebApiLogCore.Base;
 using WebApiLogViewGUI.Service;
 
 namespace WebApiLogViewGUI
@@ -26,22 +28,47 @@ namespace WebApiLogViewGUI
 
         private bool _autoToBottom = true;
 
+        private ICollectionView defaultView;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            this.mainLogViewDataGrid.DataContext = LogManager.GetInstance().Logs;
+            //this.mainLogViewDataGrid.DataContext = LogManager.GetInstance().Logs;
 
-            
+            this.defaultView = CollectionViewSource.GetDefaultView(LogManager.GetInstance().Logs);
+            this.defaultView.Filter =
+                w => ((LogModel)w).Message.Contains(textBoxFilter.Text);
+
+            mainLogViewDataGrid.ItemsSource = this.defaultView;
 
             mainWindow.Title = $"WebApiLogView [{LogManager.GetInstance().GetAddress()}]";
 
+        }
+        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            GlobalNotification.Default.Register(LogManager.kNewLogModel, this, (msg =>
+            {
+                if (_autoToBottom)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        mainLogViewDataGrid.ScrollIntoView(msg.Source);
+                    });
+                }
+
+            }));
+
+
+#if DEBUG
+            LogManager.GetInstance().Test();
+#endif
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             LogManager.GetInstance().Stop();
+            Environment.Exit(0);
         }
 
 
@@ -64,25 +91,7 @@ namespace WebApiLogViewGUI
             }
         }
 
-        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            
 
-            GlobalNotification.Default.Register(LogManager.kNewLogModel, this, (msg =>
-            {
-                if (_autoToBottom)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        mainLogViewDataGrid.ScrollIntoView(msg.Source);
-                    });
-                }
-
-            }));
-
-            LogManager.GetInstance().Test();
-
-        }
         private async void buttonExportLog_Click(object sender, RoutedEventArgs e)
         {
             var fileName = LogManager.GetInstance().Save();
@@ -93,6 +102,11 @@ namespace WebApiLogViewGUI
         private void buttonClearLog_Click(object sender, RoutedEventArgs e)
         {
             LogManager.GetInstance().ClearAll();
+        }
+         
+        private void textBoxFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            defaultView.Refresh();
         }
     }
 }
