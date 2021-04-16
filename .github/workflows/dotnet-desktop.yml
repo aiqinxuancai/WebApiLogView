@@ -20,7 +20,7 @@ jobs:
         with:
           dotnet-version: '5.0.x'
       - name: Clean
-        run: dotnet clean $env:GITHUB_WORKSPACE\WebApiLogViewGUI.sln --configuration Release && dotnet nuget locals all --clear
+        run: dotnet clean $env:GITHUB_WORKSPACE\WebApiLogView.sln --configuration Release && dotnet nuget locals all --clear
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
