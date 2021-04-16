@@ -19,12 +19,16 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.*'
-      #- run: dotnet build DotNetDllPathPatcherWPF
       - name: Restore dependencies
         run: dotnet restore
-      - run: dotnet publish -c Release --runtime win-x64
-      #- run: zip -q -r bin\Release\netcoreapp3.1\DotNetDllPathPatcherWPF.zip 
-      - run: powershell Compress-7Zip $env:GITHUB_WORKSPACE\WebApiLogViewGUI\bin\Release\net5.0-windows\publish -ArchiveFileName "WebApiLogViewGUI.zip" -Format Zip
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      - name: Publish
+        run:  dotnet publish -c Release -r osx-x64 /p:PublishSingleFile=true
+      - name: Compress
+        run: powershell Compress-7Zip $env:GITHUB_WORKSPACE\WebApiLogViewGUI\bin\Release\net5.0-windows\publish -ArchiveFileName "WebApiLogViewGUI.zip" -Format Zip
       - name: Create a Release
         uses: ncipollo/release-action@v1
         with:
