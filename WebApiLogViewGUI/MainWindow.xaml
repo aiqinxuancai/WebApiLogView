@@ -7,7 +7,7 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:system="clr-namespace:System;assembly=System.Runtime" xmlns:conver="clr-namespace:WebApiLogViewGUI.Converter"
         mc:Ignorable="d"
-        Title="WebApiLogView" Height="768" Width="1280" 
+        Title="WebApiLogView" Height="900" Width="1440" 
         Closing="mainWindow_Closing" 
         TitleCharacterCasing="Normal" 
         WindowStartupLocation="CenterScreen" 
@@ -21,26 +21,32 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="41"/>
             <RowDefinition Height="710*"/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="5,0,5,0" Grid.RowSpan="1">
             <Button Style="{StaticResource TokenButtonBlue}" x:Name="buttonExportLog" Click="buttonExportLog_Click" Content="导出日志" Width="80" Height="30"></Button>
             <Button Style="{StaticResource TokenButtonRed}" x:Name="buttonClearLog" Content="清除日志" Width="80" Height="30" Margin="5,0,0,0" Click="buttonClearLog_Click" ></Button>
-            <mah:ToggleSwitch x:Name="switchAutoToBottom" Margin="10,0,0,0" FontSize="12" Content="自动滚动" mah:HeaderedControlHelper.HeaderFontSize="12" ContentPadding="-5,0,0,0" FontFamily="Microsoft Yahei UI" Toggled="switchAutoToBottom_Toggled" IsOn="True" mah:HeaderedControlHelper.HeaderMargin="0,0,0,0" mah:HeaderedControlHelper.HeaderVerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,1"/>
-
-            <TextBox x:Name="textBoxFilter" Height="28" Width="200" CaretBrush="#7F000000" Foreground="#FF666666" mah:TextBoxHelper.Watermark="输入过滤条件" BorderBrush="#7FCCCCCC" TextChanged="textBoxFilter_TextChanged" mah:ControlsHelper.FocusBorderBrush="#7F000000" FontFamily="Microsoft YaHei UI">
+            <!--<mah:ToggleSwitch x:Name="switchAutoToBottom" Margin="10,0,0,0" FontSize="12" Content="自动滚动" mah:HeaderedControlHelper.HeaderFontSize="12" ContentPadding="-5,0,0,0" FontFamily="Microsoft Yahei UI" Toggled="switchAutoToBottom_Toggled" IsOn="True" mah:HeaderedControlHelper.HeaderMargin="0,0,0,0" mah:HeaderedControlHelper.HeaderVerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0"/>-->
+            <CheckBox x:Name="switchAutoToBottom" Content="自动滚动" Margin="10,0,0,0" Checked="switchAutoToBottom_Checked" Unchecked="switchAutoToBottom_Unchecked"></CheckBox>
+            
+            <TextBox x:Name="textBoxFilter" Height="28" Width="200" CaretBrush="#7F000000" Foreground="#FF666666" mah:TextBoxHelper.Watermark="输入过滤条件" BorderBrush="#7FCCCCCC" TextChanged="textBoxFilter_TextChanged" mah:ControlsHelper.FocusBorderBrush="#7F000000" FontFamily="Microsoft YaHei UI" Margin="20,0,0,0">
             </TextBox>
 
-            
+            <CheckBox x:Name="checkBoxOpenRegexp" Content="正则" Margin="10,0,0,0" Checked="checkBoxOpenRegexp_Checked" Unchecked="checkBoxOpenRegexp_Unchecked"></CheckBox>
         </StackPanel>
         <DataGrid x:Name="mainLogViewDataGrid" 
                       ItemsSource="{Binding}" 
                       Margin="5,0,5,0"  
                       AutoGenerateColumns="False"
+                        SelectionMode="Single"
                       Foreground="#FF424242" 
                       MinRowHeight="24" 
                       GridLinesVisibility="Horizontal" 
-                      HeadersVisibility="None" Grid.Row="2" EnableColumnVirtualization="True"
+                      HeadersVisibility="None" Grid.Row="1" 
+                  EnableColumnVirtualization="True" 
+                  SelectionChanged="mainLogViewDataGrid_SelectionChanged" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       >
 
             <DataGrid.Resources>
@@ -54,11 +60,11 @@
                     <Style.Triggers>
 
                         <!--1 => "DEBUG",
-                    2 => "INFO",
-                    3 => "WARN",
-                    4 => "ERROR",
-                    5 => "FATAL",
-                    6 => "NONE",-->
+                            2 => "INFO",
+                            3 => "WARN",
+                            4 => "ERROR",
+                            5 => "FATAL",
+                            6 => "NONE",-->
 
                         <DataTrigger Binding="{Binding Level, Mode=OneWay}" Value="4">
                             <Setter Property="Background" Value="#FF8B8B" /> 
@@ -80,7 +86,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="time" Binding="{Binding Path=Time,Mode=OneWay}" ></DataGridTextColumn>
                 <DataGridTextColumn Header="level" Binding="{Binding Path=LevelString,Mode=OneWay}"></DataGridTextColumn>
-                <DataGridTextColumn Header="message" Binding="{Binding Path=Message}"></DataGridTextColumn>
+                <DataGridTextColumn Header="message" Binding="{Binding Path=MessageOneLine}"></DataGridTextColumn>
                 <!--<DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -114,6 +120,10 @@
             </DataGrid.Columns>
         </DataGrid>
 
+
+        <TextBox x:Name="textBoxMessage" Grid.Row="2" CaretBrush="#7F000000" Foreground="#FF666666" BorderBrush="#7FCCCCCC" mah:ControlsHelper.FocusBorderBrush="#7F000000" FontFamily="Microsoft YaHei UI" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            
+        </TextBox>
 
     </Grid>
 </mah:MetroWindow>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,6 +28,7 @@ namespace WebApiLogViewGUI
     {
 
         private bool _autoToBottom = true;
+        private bool _openRegexp = false;
 
         private ICollectionView defaultView;
 
@@ -38,13 +40,26 @@ namespace WebApiLogViewGUI
 
             this.defaultView = CollectionViewSource.GetDefaultView(LogManager.GetInstance().Logs);
             this.defaultView.Filter =
-                w => ((LogModel)w).Message.Contains(textBoxFilter.Text);
+                w =>
+                {
+                    if (_openRegexp)
+                    {
+                        Regex regex = new Regex(textBoxFilter.Text);
+                        return regex.IsMatch(((LogModel)w).Message);
+                    }
+                    else
+                    {
+                        return ((LogModel)w).Message.Contains(textBoxFilter.Text);
+                    }
+                };
 
             mainLogViewDataGrid.ItemsSource = this.defaultView;
 
             mainWindow.Title = $"WebApiLogView [{LogManager.GetInstance().GetAddress()}]";
 
         }
+
+
         private void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             GlobalNotification.Default.Register(LogManager.kNewLogModel, this, (msg =>
@@ -107,6 +122,39 @@ namespace WebApiLogViewGUI
         private void textBoxFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             defaultView.Refresh();
+        }
+
+        private void switchAutoToBottom_Checked(object sender, RoutedEventArgs e)
+        {
+            _autoToBottom = (bool)switchAutoToBottom.IsChecked;
+        }
+
+        private void switchAutoToBottom_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _autoToBottom = (bool)switchAutoToBottom.IsChecked;
+        }
+
+
+        private void checkBoxOpenRegexp_Checked(object sender, RoutedEventArgs e)
+        {
+            _openRegexp = (bool)checkBoxOpenRegexp.IsChecked;
+            defaultView.Refresh();
+        }
+
+        private void checkBoxOpenRegexp_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _openRegexp = (bool)checkBoxOpenRegexp.IsChecked;
+            defaultView.Refresh();
+        }
+
+        private void mainLogViewDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //e.OriginalSource
+            if (e.AddedItems.Count > 0)
+            {
+                LogModel logModel = (LogModel)e.AddedItems[0];
+                textBoxMessage.Text = logModel.Message;
+            }
         }
     }
 }

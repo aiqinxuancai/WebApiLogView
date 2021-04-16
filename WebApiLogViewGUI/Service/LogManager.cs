@@ -62,6 +62,7 @@ namespace WebApiLogViewGUI.Service
 
         public void Test()
         {
+
             Logs.Add(new LogModel(4, $"test{2222}"));
             Logs.Add(new LogModel(5, $"test{1111}"));
             for (int i = 0; i < 100; i++)

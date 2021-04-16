@@ -30,6 +30,15 @@ namespace WebApiLogCore.Base
                 return str;
             } }
 
+
+        //删除换行符的结果
+        public string MessageOneLine { get {
+                if (Message.Count(f => f == '\n') > 5) {
+                    return Message.Replace("\n", " "); // 被折叠了
+                } 
+                return Message;
+            } }
+
         public string Message { set; get; }
 
         public LogModel(int level, string message)

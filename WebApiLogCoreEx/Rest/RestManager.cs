@@ -33,14 +33,12 @@ namespace WebApiLogCore.Services
         public static int Start (Action<LogModel> callback)
         {
             //端口自动
-
-            
-
             for (int i = START_PORT; i < START_PORT + 100; i++)
             {
                 if (PortInUse(i) == false)
                 {
                     Console.WriteLine("使用端口{0}", i);
+                    //NetFwAddApps("WebApiLogView", i);
                     //NetFwAddApps("WebApiLogView", i);
                     //无占用 启动
                     if (_httpServer.Start(i, callback))
@@ -87,18 +85,15 @@ namespace WebApiLogCore.Services
         /// </summary>
         public static string GetAddressIP()
         {
-            ///获取本地的IP地址
-            string address = string.Empty;
-            foreach (IPAddress ip in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+            string localIP;
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
             {
-                //Console.WriteLine(ip.ToString());
-                if (ip.AddressFamily.ToString() == "InterNetwork")
-                {
-                    address = ip.ToString();
-                }
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                localIP = endPoint.Address.ToString();
             }
-            Console.WriteLine(address);
-            return address;
+
+            return localIP;
         }
 
         ///// <summary>
@@ -132,7 +127,7 @@ namespace WebApiLogCore.Services
         //    firewallPolicy.Rules.Add(firewallRule);
 
 
-            
+
         //}
     }
 
