@@ -20,6 +20,8 @@ jobs:
         with:
           dotnet-version: '5.0.*'
       #- run: dotnet build DotNetDllPathPatcherWPF
+      - name: Restore dependencies
+        run: dotnet restore
       - run: dotnet publish -c Release --runtime win-x64
       #- run: zip -q -r bin\Release\netcoreapp3.1\DotNetDllPathPatcherWPF.zip 
       - run: powershell Compress-7Zip $env:GITHUB_WORKSPACE\WebApiLogViewGUI\bin\Release\net5.0-windows\publish -ArchiveFileName "WebApiLogViewGUI.zip" -Format Zip
