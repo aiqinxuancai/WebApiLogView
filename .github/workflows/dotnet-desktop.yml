@@ -1,0 +1,30 @@
+name: .NET Core Desktop
+
+on: 
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    name: Dotnet Build
+    
+    steps:
+      - name: Install 7Zip PowerShell Module
+        shell: powershell
+        run: Install-Module 7Zip4PowerShell -Force -Verbose
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.*'
+      #- run: dotnet build DotNetDllPathPatcherWPF
+      - run: dotnet publish -c Release --runtime win-x64
+      #- run: zip -q -r bin\Release\netcoreapp3.1\DotNetDllPathPatcherWPF.zip 
+      - run: powershell Compress-7Zip $env:GITHUB_WORKSPACE\WebApiLogViewGUI\bin\Release\net5.0-windows\publish -ArchiveFileName "WebApiLogViewGUI.zip" -Format Zip
+      - name: Create a Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "WebApiLogViewGUI.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
