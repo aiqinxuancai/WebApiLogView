@@ -9,18 +9,18 @@
 ```
 
 ```csharp
-        public string LevelString { get {
-                var str = Level switch
-                {
-                    1 => "DEBUG",
-                    2 => "INFO",
-                    3 => "WARN",
-                    4 => "ERROR",
-                    5 => "FATAL",
-                    6 => "NONE",
-                    _ => ""
-                };
-                return str;
-            } }
+public string LevelString { get {
+var str = Level switch
+{
+    1 => "DEBUG",
+    2 => "INFO",
+    3 => "WARN",
+    4 => "ERROR",
+    5 => "FATAL",
+    6 => "NONE",
+    _ => ""
+};
+return str;
+} }
 
 ```
