@@ -4,6 +4,6 @@
 
 启动后会在顶部显示地址及端口，只需向端口post数据即可。
 
-'''json
+```json
 {"funcName" : "SendLog", "level" : 1, "message" : "logContent~~"}
-'''
+```
