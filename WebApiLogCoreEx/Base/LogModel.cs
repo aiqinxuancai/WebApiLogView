@@ -31,6 +31,15 @@ namespace WebApiLogCore.Base
             } }
 
 
+        //kLevelAll = 0,
+        //kLevelVerbose = 0,
+        //kLevelDebug = 1,    // Detailed information on the flow through the system.
+        //kLevelInfo = 2,     // Interesting runtime events (startup/shutdown), should be conservative and keep to a minimum.
+        //kLevelWarn = 3,     // Other runtime situations that are undesirable or unexpected, but not necessarily "wrong".
+        //kLevelError = 4,    // Other runtime errors or unexpected conditions.
+        //kLevelFatal = 5,    // Severe errors that cause premature termination.
+        //kLevelNone = 6,     // Special level used to disable all log messages.
+
         //删除换行符的结果
         public string MessageOneLine { get {
                 if (Message.Count(f => f == '\n') > 5) {

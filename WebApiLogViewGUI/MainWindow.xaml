@@ -86,7 +86,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="time" Binding="{Binding Path=Time,Mode=OneWay}" ></DataGridTextColumn>
                 <DataGridTextColumn Header="level" Binding="{Binding Path=LevelString,Mode=OneWay}"></DataGridTextColumn>
-                <DataGridTextColumn Header="message" Binding="{Binding Path=MessageOneLine}"></DataGridTextColumn>
+                <DataGridTextColumn Header="message" Binding="{Binding Path=MessageOneLine,Mode=OneWay}"></DataGridTextColumn>
                 <!--<DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
