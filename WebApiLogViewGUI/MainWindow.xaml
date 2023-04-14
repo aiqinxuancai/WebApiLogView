@@ -1,15 +1,19 @@
-﻿<mah:MetroWindow x:Name="mainWindow" x:Class="WebApiLogViewGUI.MainWindow"
+﻿<Window x:Name="mainWindow" x:Class="WebApiLogViewGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebApiLogViewGUI"
-        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:system="clr-namespace:System;assembly=System.Runtime" xmlns:conver="clr-namespace:WebApiLogViewGUI.Converter"
+          xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" 
+        xmlns:system="clr-namespace:System;assembly=System.Runtime" 
+        xmlns:conver="clr-namespace:WebApiLogViewGUI.Converter"
         mc:Ignorable="d"
+        Style="{StaticResource UiWindow}"
+        WindowStyle="SingleBorderWindow"
         Title="WebApiLogView" Height="900" Width="1440" 
         Closing="mainWindow_Closing" 
-        TitleCharacterCasing="Normal" 
+       
         WindowStartupLocation="CenterScreen" 
         BorderThickness="1" Loaded="mainWindow_Loaded">
     <Window.Resources>
@@ -17,20 +21,40 @@
         <conver:BrushConver x:Key="BrushConver"/>
         <conver:LevelColorCoonverter x:Key="LevelColorCoonverter"/>
     </Window.Resources>
-    <Grid >
+    <Grid  >
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="41"/>
-            <RowDefinition Height="710*"/>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="550*"/>
+            <RowDefinition Height="200*"/>
         </Grid.RowDefinitions>
-
-        <StackPanel Orientation="Horizontal" Margin="5,0,5,0" Grid.RowSpan="1">
-            <Button Style="{StaticResource TokenButtonBlue}" x:Name="buttonExportLog" Click="buttonExportLog_Click" Content="导出日志" Width="80" Height="30"></Button>
-            <Button Style="{StaticResource TokenButtonRed}" x:Name="buttonClearLog" Content="清除日志" Width="80" Height="30" Margin="5,0,0,0" Click="buttonClearLog_Click" ></Button>
+        <ui:TitleBar x:Name="TitleBar" Grid.Row="0" Title="WebApiLogView">
+            <!--<ui:TitleBar.Header>
+                <StackPanel
+                    Margin="0,0,12,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <ui:Button
+                        Margin="0,0,4,0"
+                        Padding="4,4"
+                        Appearance="Secondary"
+                        Icon="Wifi124" />
+                    <ui:Button
+                        Margin="0"
+                        Padding="4,4"
+                        Appearance="Secondary"
+                        Icon="Bluetooth24" />
+                </StackPanel>
+            </ui:TitleBar.Header>-->
+        </ui:TitleBar>
+        <StackPanel Orientation="Horizontal" Margin="5,0,5,0" Grid.Row="1">
+            <Button  x:Name="buttonExportLog" Click="buttonExportLog_Click" Content="导出日志" Width="80" Height="30"></Button>
+            <Button  x:Name="buttonClearLog" Content="清除日志" Width="80" Height="30" Margin="5,0,0,0" Click="buttonClearLog_Click" ></Button>
             <!--<mah:ToggleSwitch x:Name="switchAutoToBottom" Margin="10,0,0,0" FontSize="12" Content="自动滚动" mah:HeaderedControlHelper.HeaderFontSize="12" ContentPadding="-5,0,0,0" FontFamily="Microsoft Yahei UI" Toggled="switchAutoToBottom_Toggled" IsOn="True" mah:HeaderedControlHelper.HeaderMargin="0,0,0,0" mah:HeaderedControlHelper.HeaderVerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0"/>-->
             <CheckBox x:Name="switchAutoToBottom" Content="自动滚动" Margin="10,0,0,0" Checked="switchAutoToBottom_Checked" Unchecked="switchAutoToBottom_Unchecked"></CheckBox>
             
-            <TextBox x:Name="textBoxFilter" Height="28" Width="200" CaretBrush="#7F000000" Foreground="#FF666666" mah:TextBoxHelper.Watermark="输入过滤条件" BorderBrush="#7FCCCCCC" TextChanged="textBoxFilter_TextChanged" mah:ControlsHelper.FocusBorderBrush="#7F000000" FontFamily="Microsoft YaHei UI" Margin="20,0,0,0">
+            <TextBox x:Name="textBoxFilter" Height="28" Width="200" CaretBrush="#7F000000" Foreground="#FF666666" BorderBrush="#7FCCCCCC" TextChanged="textBoxFilter_TextChanged" FontFamily="Microsoft YaHei UI" Margin="20,0,0,0">
             </TextBox>
 
             <CheckBox x:Name="checkBoxOpenRegexp" Content="正则" Margin="10,0,0,0" Checked="checkBoxOpenRegexp_Checked" Unchecked="checkBoxOpenRegexp_Unchecked"></CheckBox>
@@ -43,7 +67,7 @@
                       Foreground="#FF424242" 
                       MinRowHeight="24" 
                       GridLinesVisibility="Horizontal" 
-                      HeadersVisibility="None" Grid.Row="1" 
+                      HeadersVisibility="None" Grid.Row="2" 
                   EnableColumnVirtualization="True" 
                   SelectionChanged="mainLogViewDataGrid_SelectionChanged" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -56,7 +80,7 @@
 
             </DataGrid.Resources>
             <DataGrid.RowStyle>
-                <Style BasedOn="{StaticResource MahApps.Styles.DataGridRow}" TargetType="{x:Type DataGridRow}">
+                <Style TargetType="{x:Type DataGridRow}">
                     <Style.Triggers>
 
                         <!--1 => "DEBUG",
@@ -121,9 +145,14 @@
         </DataGrid>
 
 
-        <TextBox x:Name="textBoxMessage" Grid.Row="2" CaretBrush="#7F000000" Foreground="#FF666666" BorderBrush="#7FCCCCCC" mah:ControlsHelper.FocusBorderBrush="#7F000000" FontFamily="Microsoft YaHei UI" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <TextBox x:Name="textBoxMessage" Grid.Row="3" CaretBrush="#7F000000" Foreground="#FF666666"
+                      MinLines="3" 
+                     AcceptsReturn="True" 
+                     TextWrapping="Wrap"
+                  VerticalScrollBarVisibility="Visible"  VerticalAlignment="Stretch"
+                 BorderBrush="#7FCCCCCC"  FontFamily="Microsoft YaHei UI"  HorizontalScrollBarVisibility="Disabled" Margin="5,5,5,5" >
             
         </TextBox>
 
     </Grid>
-</mah:MetroWindow>
+</Window>

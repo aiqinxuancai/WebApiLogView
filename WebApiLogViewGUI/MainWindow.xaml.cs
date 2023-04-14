@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,13 +17,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WebApiLogCore.Base;
 using WebApiLogViewGUI.Service;
+using Wpf.Ui.Controls;
 
 namespace WebApiLogViewGUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : Window
     {
 
         private bool _autoToBottom = true;
@@ -55,7 +55,7 @@ namespace WebApiLogViewGUI
 
             mainLogViewDataGrid.ItemsSource = this.defaultView;
 
-            mainWindow.Title = $"WebApiLogView [{LogManager.GetInstance().GetAddress()}]";
+            TitleBar.Title = $"WebApiLogView [{LogManager.GetInstance().GetAddress()}]";
 
         }
 
@@ -75,6 +75,9 @@ namespace WebApiLogViewGUI
             }));
 
 
+            LogManager.GetInstance().GetAddress();
+
+
 #if DEBUG
             LogManager.GetInstance().Test();
 #endif
@@ -90,10 +93,10 @@ namespace WebApiLogViewGUI
 
         private void switchAutoToBottom_Toggled(object sender, RoutedEventArgs e)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            CheckBox toggleSwitch = sender as CheckBox;
             if (toggleSwitch != null)
             {
-                if (toggleSwitch.IsOn == true)
+                if (toggleSwitch.IsChecked == true)
                 {
                     //_mainLogViewDataGrid.
                    
@@ -102,7 +105,7 @@ namespace WebApiLogViewGUI
                 {
                 }
 
-                _autoToBottom = toggleSwitch.IsOn;
+                _autoToBottom = (bool)toggleSwitch.IsChecked;
             }
         }
 
@@ -110,7 +113,7 @@ namespace WebApiLogViewGUI
         private async void buttonExportLog_Click(object sender, RoutedEventArgs e)
         {
             var fileName = LogManager.GetInstance().Save();
-            MessageDialogResult messageResult = await this.ShowMessageAsync("导出成功！", $"文件保存为：{fileName}");
+            //MessageDialogResult messageResult = await this.ShowMessageAsync("导出成功！", $"文件保存为：{fileName}");
         }
 
 
