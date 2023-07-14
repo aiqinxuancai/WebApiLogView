@@ -69,7 +69,7 @@ namespace WebApiLogCore.Services.Rest
                 // 启动Http服务
 
                 var url = String.Format("http://{0}:{1}/", RestManager.GetAddressIP(), port);
-                Console.WriteLine(url);
+                Debug.WriteLine(url);
 
                 _listener.Prefixes.Add(url);
 	            _listener.Start();
@@ -85,7 +85,7 @@ namespace WebApiLogCore.Services.Rest
             }
             catch (System.Exception ex)
             {
-                Console.WriteLine(ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -143,7 +143,7 @@ namespace WebApiLogCore.Services.Rest
             }
             catch (Exception e)
             {
-                Console.WriteLine(string.Format("[HttpServerBase::ContextReady]err:{0}", e.Message));
+                Debug.WriteLine(string.Format("[HttpServerBase::ContextReady]err:{0}", e.Message));
             }
         }
 
@@ -187,7 +187,7 @@ namespace WebApiLogCore.Services.Rest
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(string.Format("[HttpServerBase::Worker]err:{0}", e.Message));
+                    Debug.WriteLine(string.Format("[HttpServerBase::Worker]err:{0}", e.Message));
                 }
             }
         }

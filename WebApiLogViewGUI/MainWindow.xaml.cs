@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WebApiLogCore.Base;
+using WebApiLogViewGUI.Model;
 using WebApiLogViewGUI.Service;
 using Wpf.Ui.Controls;
 

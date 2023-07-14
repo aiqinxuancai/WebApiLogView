@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using WebApiLogCore.Base;
-using WebApiLogCore.Services;
 using WebApiLogViewGUI.Model;
 
 using System.IO;
+using System.Net.Sockets;
+using System.Net;
+using System.Diagnostics;
 
 namespace WebApiLogViewGUI.Service
 {
@@ -35,19 +36,69 @@ namespace WebApiLogViewGUI.Service
         public ObservableCollection<LogModel> Logs { get; }
 
 
-        public string IP { get; }
+        public string IP { get; } = "";
         public int Port { get; set; }
 
         public const string kNewLogModel = "kNewLogModel";
+
 
         LogManager()
         {
             Logs = new ObservableCollection<LogModel>();
 
+            Task.Run(() =>
+            {
 
-            IP = RestManager.GetAddressIP();
-            Port = RestManager.Start(LogCallback);
-            
+                // 创建UdpClient对象，并指定要监听的端口号
+                UdpClient udpClient = new UdpClient(12111);
+
+                try
+                {
+                    // 接收数据
+                    while (true)
+                    {
+                        IPEndPoint remoteEP = null;
+                        byte[] data = udpClient.Receive(ref remoteEP);
+                        Debug.WriteLine("Received data from {0}:", remoteEP.ToString());
+                        Debug.WriteLine(Encoding.ASCII.GetString(data));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    udpClient.Close();
+                }
+
+            });
+
+
+            Task.Run(async () => 
+            {
+                await Task.Delay(3000);
+                // 创建UdpClient对象，并指定要监听的端口号
+                UdpClient udpClient = new UdpClient();
+
+                try
+                {
+                    UdpClient client = new UdpClient();
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes("Hello, world!");
+                    client.Send(data, data.Length, "172.16.1.24", 12111);
+                    client.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    udpClient.Close();
+                }
+
+            });
+
         }
 
         public string GetAddress()
@@ -57,7 +108,7 @@ namespace WebApiLogViewGUI.Service
 
         public void Stop()
         {
-            RestManager.Stop();
+            //RestManager.Stop();
         }
 
         public void Test()
