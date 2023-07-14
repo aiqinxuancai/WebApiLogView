@@ -1,4 +1,4 @@
-﻿<Window x:Name="mainWindow" x:Class="WebApiLogViewGUI.MainWindow"
+﻿<ui:FluentWindow x:Name="mainWindow" x:Class="WebApiLogViewGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,6 @@
         xmlns:system="clr-namespace:System;assembly=System.Runtime" 
         xmlns:conver="clr-namespace:WebApiLogViewGUI.Converter"
         mc:Ignorable="d"
-        Style="{StaticResource UiWindow}"
         WindowStyle="SingleBorderWindow"
         Title="WebApiLogView" Height="900" Width="1440" 
         Closing="mainWindow_Closing" 
@@ -155,4 +154,4 @@
         </TextBox>
 
     </Grid>
-</Window>
+</ui:FluentWindow>

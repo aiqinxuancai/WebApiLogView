@@ -12,6 +12,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Net;
 using System.Diagnostics;
+using System.Text.Json.Nodes;
 
 namespace WebApiLogViewGUI.Service
 {
@@ -60,7 +61,30 @@ namespace WebApiLogViewGUI.Service
                         IPEndPoint remoteEP = null;
                         byte[] data = udpClient.Receive(ref remoteEP);
                         Debug.WriteLine("Received data from {0}:", remoteEP.ToString());
-                        Debug.WriteLine(Encoding.ASCII.GetString(data));
+
+                        try
+                        {
+                            var jsonString = Encoding.UTF8.GetString(data);
+                            Debug.WriteLine(jsonString);
+
+                            JsonObject json = (JsonObject)JsonNode.Parse(jsonString);
+
+                            int level = (int)json["level"];
+                            string message = (string)json["message"];
+
+                            LogModel logModel = new LogModel(level, message);
+
+                            LogCallback(logModel);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e.ToString());
+                        }
+                        finally
+                        {
+                            udpClient.Close();
+                        }
+
                     }
                 }
                 catch (Exception e)
@@ -84,7 +108,7 @@ namespace WebApiLogViewGUI.Service
                 try
                 {
                     UdpClient client = new UdpClient();
-                    byte[] data = System.Text.Encoding.UTF8.GetBytes("Hello, world!");
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes("Hello, world! 你好");
                     client.Send(data, data.Length, "172.16.1.24", 12111);
                     client.Close();
                 }
