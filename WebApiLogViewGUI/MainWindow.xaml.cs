@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -75,8 +76,9 @@ namespace WebApiLogViewGUI
             }));
 
 
-            LogManager.GetInstance().GetAddress();
+            var address = LogManager.GetInstance().GetAddress();
 
+            Debug.WriteLine(address);
 
 #if DEBUG
             LogManager.GetInstance().Test();

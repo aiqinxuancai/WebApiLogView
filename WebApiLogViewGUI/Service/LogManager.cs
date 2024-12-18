@@ -51,7 +51,7 @@ namespace WebApiLogViewGUI.Service
             {
 
                 // 创建UdpClient对象，并指定要监听的端口号
-                UdpClient udpClient = new UdpClient(12111);
+                UdpClient udpClient = new UdpClient(12112);
 
                 try
                 {
